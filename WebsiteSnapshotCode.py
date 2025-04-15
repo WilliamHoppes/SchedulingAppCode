@@ -5,8 +5,9 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
+from datetime import datetime
 
-output_path = "C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppTestingGround/01RawWebsiteSnapshots"
+output_path = "C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppTestingGround/01RawWebsiteSnapshots/"
 
 for f in os.listdir(output_path):
     print(f)
@@ -39,6 +40,34 @@ def capture_website_screenshot(url, output_path):
     finally:
         browser.quit()
 
-capture_website_screenshot("https://continentalclub.com/houston", output_path=output_path+"/ContinentalClub.png")
-capture_website_screenshot("https://iondistrict.com/events/month/2025-04/", output_path=output_path+"/IonDistrict.png")
-capture_website_screenshot("https://www.threads.net/@sbchoustoncentral", output_path=output_path+"/SilentReadingGroup.png")
+current_year=str(datetime.today().year)
+current_month=str(datetime.today().month)
+current_month_fixed=""
+if len(current_month)==1:
+    current_month_fixed+="0"+current_month
+else:
+    current_month_fixed=current_month
+current_date_yearmonth=current_year+"-"+current_month
+
+
+#Tech
+#capture_website_screenshot("https://iondistrict.com/events/month/"+current_year+"-"+current_month_fixed+"/", output_path=output_path+"IonDistrict.png")
+#capture_website_screenshot("https://www.tmc.edu/innovation/events/list/", output_path=output_path+"TMCi.png")
+#capture_website_screenshot("https://www.meetup.com/houston-ai-club/", output_path=output_path+"HoustonAiClub.png")#
+
+#Fun
+#capture_website_screenshot("https://www.meetup.com/houston-reading-parties/", output_path=output_path+"HoustonReadingParties.png")
+#capture_website_screenshot("https://www.threads.net/@sbchoustoncentral", output_path=output_path+"SilentReadingGroup.png")
+#capture_website_screenshot("https://continentalclub.com/houston", output_path=output_path+"ContinentalClub.png")
+#capture_website_screenshot("https://www.thehobbycenter.org/events/month/"+current_year+"-"+current_month_fixed+"/", output_path=output_path+"HobbyCenter.png")
+#capture_website_screenshot("https://www.milleroutdoortheatre.com/performance-list/", output_path=output_path+"MillerOutdoorTheatre.png")
+#capture_website_screenshot("https://houstonsymphony.org/performance-calendar/", output_path=output_path+"HoustonSymphony.png")
+#capture_website_screenshot("https://www.houstondynamofc.com/schedule/#date=2025-04-15", output_path=output_path+"HoustonDynamo.png")
+
+#Fun, the Post chunk
+capture_website_screenshot("https://www.posthtx.com/event?location=Art+Club", output_path=output_path+"POST_ArtClub.png")
+capture_website_screenshot("https://www.posthtx.com/event?location=POST+Market", output_path=output_path+"POST_Market.png")
+capture_website_screenshot("https://www.posthtx.com/event?location=Rooftop", output_path=output_path+"POST_Rooftop.png")
+capture_website_screenshot("https://www.posthtx.com/event?location=X+Atrium", output_path=output_path+"POST_XAtrium.png")
+capture_website_screenshot("https://www.posthtx.com/event?location=Z+Atrium", output_path=output_path+"POST_ZAtrium.png")
+capture_website_screenshot("https://www.posthtx.com/event?location=713+Music+Hall", output_path=output_path+"POST_713MusicHall.png")
