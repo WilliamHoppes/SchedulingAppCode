@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -7,7 +9,9 @@ import time
 import os
 from datetime import datetime
 
-output_path = "C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppTestingGround/01RawWebsiteSnapshots/"
+output_path = "C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppLive/01Raw_Website_Snapshots/"
+
+file_df=pd.read_csv("C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppCode/List_of_Event_Locations.csv")
 
 for f in os.listdir(output_path):
     print(f)
@@ -17,8 +21,9 @@ def capture_website_screenshot(url, output_path):
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--start-maximized")
-    service = Service(executable_path="C:/Users/hoppe/Documents/SchedulingApp/chromedriver-win64/chromedriver-win64/chromedriver.exe")
-    browser = webdriver.Chrome(service=service, options=chrome_options)
+#    service = Service(executable_path="C:/Users/hoppe/Documents/SchedulingApp/chromedriver-win64/chromedriver-win64/chromedriver.exe") #This broke functionality when Chrome updated, don't know why
+
+    browser = webdriver.Chrome(options=chrome_options)
 
     try:
         browser.get(url)
@@ -49,6 +54,16 @@ else:
     current_month_fixed=current_month
 current_date_yearmonth=current_year+"-"+current_month
 
+file_urls=file_df['URL'].values.tolist()
+file_names=file_df['Name'].values.tolist()
+file_special=file_df['SpecialStyle'].values.tolist()
+
+for i in range(len(file_urls)):
+    if file_special[i]==0:
+        capture_website_screenshot(file_urls[i], output_path=output_path+file_names[i]+".png")
+    elif file_special[i]==1:
+        capture_website_screenshot(file_urls[i]+current_year+"-"+current_month_fixed+"/", output_path=output_path+file_names[i]+".png")
+    time.sleep(5)
 
 #Tech
 #capture_website_screenshot("https://iondistrict.com/events/month/"+current_year+"-"+current_month_fixed+"/", output_path=output_path+"IonDistrict.png")
@@ -65,9 +80,9 @@ current_date_yearmonth=current_year+"-"+current_month
 #capture_website_screenshot("https://www.houstondynamofc.com/schedule/#date=2025-04-15", output_path=output_path+"HoustonDynamo.png")
 
 #Fun, the Post chunk
-capture_website_screenshot("https://www.posthtx.com/event?location=Art+Club", output_path=output_path+"POST_ArtClub.png")
-capture_website_screenshot("https://www.posthtx.com/event?location=POST+Market", output_path=output_path+"POST_Market.png")
-capture_website_screenshot("https://www.posthtx.com/event?location=Rooftop", output_path=output_path+"POST_Rooftop.png")
-capture_website_screenshot("https://www.posthtx.com/event?location=X+Atrium", output_path=output_path+"POST_XAtrium.png")
-capture_website_screenshot("https://www.posthtx.com/event?location=Z+Atrium", output_path=output_path+"POST_ZAtrium.png")
-capture_website_screenshot("https://www.posthtx.com/event?location=713+Music+Hall", output_path=output_path+"POST_713MusicHall.png")
+#capture_website_screenshot("https://www.posthtx.com/event?location=Art+Club", output_path=output_path+"POST_ArtClub.png")
+#capture_website_screenshot("https://www.posthtx.com/event?location=POST+Market", output_path=output_path+"POST_Market.png")
+#capture_website_screenshot("https://www.posthtx.com/event?location=Rooftop", output_path=output_path+"POST_Rooftop.png")
+#capture_website_screenshot("https://www.posthtx.com/event?location=X+Atrium", output_path=output_path+"POST_XAtrium.png")
+#capture_website_screenshot("https://www.posthtx.com/event?location=Z+Atrium", output_path=output_path+"POST_ZAtrium.png")
+#capture_website_screenshot("https://www.posthtx.com/event?location=713+Music+Hall", output_path=output_path+"POST_713MusicHall.png")
