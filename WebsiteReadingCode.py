@@ -1,17 +1,18 @@
 import os
 from google import genai
+from google.genai import types
 import io
 import pandas as pd
 import time
 import csv
 
 #https://ai.google.dev/gemini-api/docs
-my_api_key="AIzaSyABpmNdLcZhnAduMWBpDob8gaeq2BUWtsI"
+my_api_key=os.environ['GEMINI_API_KEY']
 
 open_path="C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppLive/01Raw_Website_Snapshots/"
 exit_path="C:/Users/hoppe/Documents/SchedulingApp/SchedulingAppLive/02Processed_Website_Schedules/"
 
-client = genai.Client(api_key="AIzaSyABpmNdLcZhnAduMWBpDob8gaeq2BUWtsI")
+client = genai.Client(api_key=my_api_key)
 
 
 prompt="Please help me generate a csv file of all the events from the website shown in the attached image. "
@@ -32,8 +33,12 @@ for file in os.listdir(open_path):
         file_name=file[:-4]
         current_image=client.files.upload(file=open_path+file)
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             contents=[current_image, prompt+error_prompt_addon],
+            #https://ai.google.dev/gemini-api/docs/thinking
+            config=types.GenerateContentConfig(
+                thinking_config=types.ThinkingConfig(thinking_budget=1024)
+            )
         )
         csv_raw_data=str(response.text)
         #Basic Cleaning
